@@ -1,0 +1,73 @@
+<head>
+    <link href="https://cdn.datatables.net/1.10.13/css/jquery.dataTables.min.css" rel="stylesheet">
+    <link href="https://cdn.datatables.net/buttons/1.2.4/css/buttons.dataTables.min.css" rel="stylesheet">
+    <link href="https://cdn.datatables.net/buttons/1.2.4/css/buttons.dataTables.min.css" rel="stylesheet">
+    <link href="https://editor.datatables.net/extensions/Editor/css/editor.dataTables.min.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://cdn.datatables.net/1.10.13/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.2.4/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdn.datatables.net/select/1.2.1/js/dataTables.select.min.js"></script>
+    <script src="https://editor.datatables.net/extensions/Editor/js/dataTables.editor.min.js"></script>
+</head>
+
+<table id="example" class="display" cellspacing="0" width="100%">
+    <thead>
+    <tr>
+        <th>First name</th>
+        <th>Last name</th>
+        <th>Phone #</th>
+        <th>Location</th>
+    </tr>
+    </thead>
+    <tfoot>
+    <tr>
+        <th>First name</th>
+        <th>Last name</th>
+        <th>Phone #</th>
+        <th>Location</th>
+    </tr>
+    </tfoot>
+</table>
+<script>var editor; // use a global for the submit and return data rendering in the examples
+
+$(document).ready(function() {
+    editor = new $.fn.dataTable.Editor( {
+        ajax: "../php/join.php",
+        table: "#example",
+        fields: [ {
+            label: "First name:",
+            name: "users.first_name"
+        }, {
+            label: "Last name:",
+            name: "users.last_name"
+        }, {
+            label: "Phone #:",
+            name: "users.phone"
+        }, {
+            label: "Site:",
+            name: "users.site",
+            type: "select"
+        }
+        ]
+    } );
+
+    $('#example').DataTable( {
+        dom: "Bfrtip",
+        ajax: {
+            url: "../php/join.php",
+            type: 'POST'
+        },
+        columns: [
+            { data: "users.first_name" },
+            { data: "users.last_name" },
+            { data: "users.phone" },
+            { data: "sites.name" }
+        ],
+        select: true,
+        buttons: [
+            { extend: "create", editor: editor },
+            { extend: "edit",   editor: editor },
+            { extend: "remove", editor: editor }
+        ]
+    } );
+} );</script>
